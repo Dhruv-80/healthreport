@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Health Reports</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .container {
+            margin-top: 50px;
+        }
+        .card {
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        .card-header {
+            background-color: #007bff;
+            color: white;
+            border-radius: 8px 8px 0 0;
+        }
+        .table {
+            margin-top: 20px;
+        }
+        .pagination {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="card">
+        <div class="card-header">
+            <h3>Health Reports</h3>
+            <a href="/addReport" class="btn btn-success">Add New Report</a>
+        </div>
+        <div class="card-body">
+            <!-- Search Form -->
+            <form action="#" th:action="@{/reports}" method="get" class="form-inline mb-3">
+                <input type="text" name="searchTerm" class="form-control mr-2" placeholder="Search by name" th:value="${searchTerm}">
+                <button type="submit" class="btn btn-primary">Search</button>
+            </form>
+
+            <table class="table table-bordered table-striped">
+                <thead class="thead-dark">
+                <tr>
+                    <th>Name</th>
+                    <th>Heart Rate</th>
+                    <th>Temperature</th>
+                    <th>Timestamp</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="report : ${reports}">
+                    <td th:text="${report.name}">Name</td>
+                    <td th:text="${report.heartRate}">Heart Rate</td>
+                    <td th:text="${report.temperature}">Temperature</td>
+                    <td th:text="${report.timestamp}">Timestamp</td>
+                </tr>
+                </tbody>
+            </table>
+
+            <!-- Pagination Controls -->
+            <div class="pagination">
+                <a th:if="${currentPage > 0}" th:href="@{/reports(page=${currentPage - 1}, searchTerm=${searchTerm})}" class="btn btn-outline-secondary">Previous</a>
+                <span>Page <span th:text="${currentPage + 1}"></span> of <span th:text="${totalPages}"></span></span>
+                <a th:if="${currentPage < totalPages - 1}" th:href="@{/reports(page=${currentPage + 1}, searchTerm=${searchTerm})}" class="btn btn-outline-secondary">Next</a>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
